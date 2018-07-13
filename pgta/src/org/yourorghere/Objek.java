@@ -115,7 +115,24 @@ public class Objek {
         gl.glVertex3f(0, 0, -0.5f); // A
         gl.glEnd();
     }
+    
+    static void FLOOR(GL gl) {
+        gl.glColor3f(0, 0, 1);
+        float amb[] = {0, 0.5f, 0, 1};
+        float diff[] = {0, 0.5f, 0, 1};
+        float spec[] = {0, 0.5f, 0, 1};
+        float shine = 0;
 
-
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_AMBIENT, amb, 0);
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_DIFFUSE, diff, 0);
+        gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, spec, 0);
+        gl.glMaterialf(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, shine);
+        gl.glBegin(GL.GL_QUADS);
+        gl.glVertex3f(-10000, -3, -10000);
+        gl.glVertex3f(10000, -3, -10000);
+        gl.glVertex3f(10000, -3, 10000);
+        gl.glVertex3f(-10000, -3, 10000);
+        gl.glEnd();
+    }
 }
 

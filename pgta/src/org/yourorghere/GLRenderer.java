@@ -168,6 +168,8 @@ gunakan -1 untuk arah berlawanan dengan vektor awal
         Objek.road(drawable);
         gl.glTranslatef(0, 0, -3f);
         Objek.bridge(drawable);
+        
+        Objek.FLOOR(gl);
 
         
         // jalan jembatan kanan
