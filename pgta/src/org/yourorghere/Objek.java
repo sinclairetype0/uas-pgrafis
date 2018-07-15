@@ -1,5 +1,4 @@
 package org.yourorghere;
-
 import com.sun.opengl.util.Animator;
 import java.awt.Frame;
 import java.awt.event.WindowAdapter;
@@ -10,14 +9,6 @@ import javax.media.opengl.GLCanvas;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.glu.GLU;
 
-
-
-/**
- * Objek.java <BR>
- * author: Brian Paul (converted to Java by Ron Cemer and Sven Goethel) <P>
- *
- * This version is equal to Brian Paul's version 1.2 1999/10/21
- */
 public class Objek {
     
    static void pillar (GLAutoDrawable drawable){
@@ -116,6 +107,20 @@ public class Objek {
         gl.glEnd();
     }
     
+    static void Kapal (GLAutoDrawable drawable) {
+        GL gl = drawable.getGL();
+        gl.glColor3f(1, 1, 0);
+        
+        //tampak Belakang
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3f(1f, -0.5f, -15f);
+        gl.glVertex3f(-1f, -0.5f, -15f);
+        gl.glVertex3f(-2.5f, 2.5f, -15f);
+        gl.glVertex3f(2.5f, 2.5f, -15f);
+        gl.glEnd();
+        
+    }
+    
     static void FLOOR(GL gl) {
         gl.glColor3f(0, 0, 1);
         float amb[] = {0, 0.5f, 0, 1};
@@ -128,10 +133,10 @@ public class Objek {
         gl.glMaterialfv(GL.GL_FRONT, GL.GL_SPECULAR, spec, 0);
         gl.glMaterialf(GL.GL_FRONT_AND_BACK, GL.GL_SHININESS, shine);
         gl.glBegin(GL.GL_QUADS);
-        gl.glVertex3f(-10000, -3, -10000);
-        gl.glVertex3f(10000, -3, -10000);
-        gl.glVertex3f(10000, -3, 10000);
-        gl.glVertex3f(-10000, -3, 10000);
+        gl.glVertex3f(-10000, -1, -10000);
+        gl.glVertex3f(10000, -1, -10000);
+        gl.glVertex3f(10000, -1, 10000);
+        gl.glVertex3f(-10000, -1, 10000);
         gl.glEnd();
     }
 }
