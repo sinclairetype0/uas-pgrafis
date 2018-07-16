@@ -119,6 +119,26 @@ public class Objek {
         gl.glVertex3f(2.5f, 2.5f, -15f);
         gl.glEnd();
         
+        //tampak depan
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3f(1f, -0.5f, -8f);
+        gl.glVertex3f(-1f, -0.5f, -8f);
+        gl.glVertex3f(-2.5f, 2.5f, -8f);
+        gl.glVertex3f(2.5f, 2.5f, -8f);
+        gl.glVertex3f(0f, 2.5f, -5f);
+        
+        gl.glVertex3f(1f, -0.5f, -8f);
+        gl.glEnd();
+        
+        //tampak atas
+        gl.glColor3f(1, 0, 0);
+        gl.glBegin(gl.GL_QUADS);
+        gl.glVertex3f(2.5f, 2.5f, -8f);
+        gl.glVertex3f(2.5f, 2.5f, -15f);
+        gl.glVertex3f(-2.5f, 2.5f, -15f);
+        gl.glVertex3f(-2.5f, 2.5f, -8f);
+        gl.glEnd();
+        
     }
     
     static void FLOOR(GL gl) {

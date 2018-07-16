@@ -163,14 +163,19 @@ public class GLRenderer implements GLEventListener {
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
         Objek.FLOOR(gl);
-        Objek.Kapal(drawable);
-        gl.glTranslatef(0f, 0.5f, -15f);
+        
+        //Maju Kapal
+        gl.glTranslatef(0f, -1f, -10f);
         if (maju) {
-            drawingmaju(drawable, 66);
-        } else if (maju == false && gerakin >= 0) {
-            drawingdownmaju(drawable, 66);
+            drawmaju(drawable, 66);
+        } else if (maju == false && gerakin >= 5) {
+            drawmaju2(drawable, 66);
         }
-
+//        gl.glRotatef(silinderAngle, x, y, z);
+//        gl.glTranslatef(0, 0, 0f);
+        Objek.Kapal(drawable);
+        
+        
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
         // jalan jembatan kiri
@@ -214,7 +219,13 @@ public class GLRenderer implements GLEventListener {
         gl.glTranslatef(0, 0, -3f);
         Objek.bridge(drawable);
 
-        // camera
+        //GERAKAN
+        if (silinder) {
+            x = 0;
+            y = 0;
+            z = 1f;
+            silinderAngle += 15f;
+        }
         if (silinder) {
             x = 1f;
             y = 0;
@@ -251,6 +262,7 @@ public class GLRenderer implements GLEventListener {
             z = 1f;
             silinderAngle -= 15f;
         }
+        //KAMERA
         if (kamera) {
             Key_Pressed(40); // looping panah bawah
         }
@@ -283,28 +295,6 @@ public class GLRenderer implements GLEventListener {
         if (angle <= 45) {
             angle++;
         }
-    }
-    
-    void drawingmaju(GLAutoDrawable drawable, int KeyCode) {
-        GL gl = drawable.getGL();
-        if (KeyCode == 69) {
-            gl.glTranslatef(0, 0, 1);
-        }
-        if (gerakin <= 100) {
-            gerakin++;
-        }
-    }
-    
-    void drawingdownmaju(GLAutoDrawable drawable, int KeyCode) {
-        GL gl = drawable.getGL();
-        gl.glTranslatef(0f, 0, 15f);
-        if (KeyCode == 69) {
-            gl.glTranslatef(0, 0, 1);
-        }
-        if (gerakin2 <= 45) {
-            gerakin2--;
-        }
-        gl.glTranslatef(0f, 0, -15);
     }
     
     void drawingkanan(GLAutoDrawable drawable, int KeyCode) {
@@ -340,6 +330,35 @@ public class GLRenderer implements GLEventListener {
         }
         gl.glTranslatef(-5f, 0, 0);
     }
+
+        
+    void drawmaju(GLAutoDrawable drawable, int KeyCode) {
+        GL gl = drawable.getGL();
+        gl.glTranslatef(0, 0, 5f);
+        if (KeyCode == 66) {
+//          gl.glRotatef(gerakin, 3, 0, 0);
+            gl.glTranslatef(0, 0, gerakin);
+        }
+        if (gerakin <= 19) {
+            gerakin++;
+        }
+        gl.glTranslatef(0, 0, 0);
+    }
+
+       
+    void drawmaju2(GLAutoDrawable drawable, int KeyCode) {
+        GL gl = drawable.getGL();
+        gl.glTranslatef(0, 0, 19);
+        if (KeyCode == 78) {
+//          gl.glRotatef(gerakin2, 0, 0, -1);
+            gl.glTranslatef(0, 0, gerakin);
+        }
+        if (gerakin2 >= 10) {
+            gerakin2--;
+        }
+        gl.glTranslatef(0, 0, -18f);
+    }
+
 
     void Key_Pressed(int keyCode) {
         //huruf Q
@@ -447,7 +466,14 @@ public class GLRenderer implements GLEventListener {
             } else {
                 maju = true;
             }
-        } //panah kiri
+        } else if (keyCode == 78) { //N
+            if (maju) {
+                maju = false;
+            } else {
+                maju = true;
+            }
+        }
+        //panah kiri
         else if (keyCode == 37) {
             angle_vertikal += 15f;
             samping.vectorRotation(vertikal, angle_vertikal - angle_vertikal2);
