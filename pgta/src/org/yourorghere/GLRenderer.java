@@ -124,7 +124,7 @@ public class GLRenderer implements GLEventListener {
         //gl.glEnable(GL.GL_LIGHT0);
         //gl.glEnable(GL.GL_LIGHTING);
         //gl.glEnable(GL.GL_DEPTH_TEST);
-        gl.glClearColor(1f, 1f, 1.0f, 1.0f);
+        gl.glClearColor(0.5f, 0.7f, 1.0f, 1.0f);
         //gl.glShadeModel(GL.GL_SMOOTH);
         //gl.glShadeModel(GL.GL_SMOOTH); // try setting this to GL_FLAT and see what happens.
     }
@@ -160,10 +160,25 @@ public class GLRenderer implements GLEventListener {
         gl.glEnable(GL.GL_DEPTH_TEST);
         // Reset the current matrix to the "identity"
         // Move the "drawing cursor" around
+        
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
-        Objek.FLOOR(gl);
+        //Pasif Objek
+        Objek.air(gl);
+        gl.glTranslatef(5f, 0.5f, -10f);
+        Objek.bridge(drawable);
+        Objek.roadpasif(drawable);
+        gl.glTranslatef(0f, 0f, -3f);
+        Objek.bridge(drawable);
+        gl.glTranslatef(-15f, 0f, 3f);
+        Objek.roadpasif(drawable);
+        Objek.bridge(drawable);
+        gl.glTranslatef(0f, 0f, -3f);
+        Objek.bridge(drawable);
         
+        //Kapal
+        gl.glLoadIdentity();
+        glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
         //Maju Kapal
         gl.glTranslatef(0f, -1f, -10f);
         if (maju) {
@@ -174,8 +189,7 @@ public class GLRenderer implements GLEventListener {
 //        gl.glRotatef(silinderAngle, x, y, z);
 //        gl.glTranslatef(0, 0, 0f);
         Objek.Kapal(drawable);
-        
-        
+       
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
         // jalan jembatan kiri
@@ -345,7 +359,6 @@ public class GLRenderer implements GLEventListener {
         gl.glTranslatef(0, 0, 0);
     }
 
-       
     void drawmaju2(GLAutoDrawable drawable, int KeyCode) {
         GL gl = drawable.getGL();
         gl.glTranslatef(0, 0, 19);
