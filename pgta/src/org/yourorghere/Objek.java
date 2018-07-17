@@ -239,5 +239,93 @@ public class Objek {
         gl.glVertex3f(-10000, -1, 10000);
         gl.glEnd();
     }
+    
+       static void btruck (GLAutoDrawable drawable){
+        GL gl = drawable.getGL();
+        gl.glColor3f(1f, 0f, 0f);
+        
+        gl.glBegin(gl.GL_POLYGON);
+        gl.glVertex3f(0, 0f, 0); // A
+        gl.glVertex3f(1f, 0f, 0); // B
+        gl.glVertex3f(1f, 1f, 0); // C
+        gl.glVertex3f(0, 1f, 0); // D
+        
+        gl.glVertex3f(0, 1f, -0.5f); // E
+        gl.glVertex3f(1f, 1f, -0.5f); // F
+        gl.glVertex3f(1f, 1f, 0); // C
+        
+        gl.glVertex3f(1f, 0f, 0); // B
+        gl.glVertex3f(1f, 0f, -0.5f); // G
+        gl.glVertex3f(1f, 1f, -0.5f); // F
+        
+        gl.glVertex3f(0, 1f, -0.5f); // E
+        gl.glVertex3f(0, 0f, -0.5f); // H
+        gl.glVertex3f(1f, 0f, -0.5f); // G
+        
+        gl.glVertex3f(1f, 0f, 0); // B
+        gl.glVertex3f(0, 0f, 0); // A
+        gl.glVertex3f(0, 0f, -0.5f); // H
+        
+        gl.glVertex3f(0, 1f, -0.5f); // E
+        gl.glVertex3f(0, 1f, 0); // D
+        gl.glVertex3f(0, 0f, 0); // A
+        gl.glEnd();
+}
+       static void htruck (GLAutoDrawable drawable){
+        GL gl = drawable.getGL();
+        gl.glColor3f(0f, 1f, 0f);
+        
+        gl.glBegin(gl.GL_POLYGON);
+        gl.glVertex3f(0, 0f, 0); // A
+        gl.glVertex3f(0.5f, 0f, 0); // B
+        gl.glVertex3f(0.5f, 0.5f, 0); // C
+        gl.glVertex3f(0, 0.5f, 0); // D
+        
+        gl.glVertex3f(0, 0.5f, -0.5f); // E
+        gl.glVertex3f(0.5f, 0.5f, -0.5f); // F
+        gl.glVertex3f(0.5f, 0.5f, 0); // C
+        
+        gl.glVertex3f(0.5f, 0f, 0); // B
+        gl.glVertex3f(0.5f, 0f, -0.5f); // G
+        gl.glVertex3f(0.5f, 0.5f, -0.5f); // F
+        
+        gl.glVertex3f(0, 0.5f, -0.5f); // E
+        gl.glVertex3f(0, 0f, -0.5f); // H
+        gl.glVertex3f(0.5f, 0f, -0.5f); // G
+        
+        gl.glVertex3f(0.5f, 0f, 0); // B
+        gl.glVertex3f(0, 0f, 0); // A
+        gl.glVertex3f(0, 0f, -0.5f); // H
+        
+        gl.glVertex3f(0, 0.5f, -0.5f); // E
+        gl.glVertex3f(0, 0.5f, 0); // D
+        gl.glVertex3f(0, 0f, 0); // A
+        gl.glEnd();
+}
+       static void baling (GLAutoDrawable drawable) {
+           GL gl = drawable.getGL();
+            gl.glColor3f(0f, 1f, 0f);
+            gl.glBegin(gl.GL_TRIANGLES);
+            gl.glVertex2f(0, 0); // A
+            gl.glVertex2f(0f, 1.5f); // B
+            gl.glVertex2f(0.5f, 0.5f); // C
+            gl.glEnd();
+            gl.glBegin(gl.GL_TRIANGLES);
+            gl.glVertex2f(0f, 0f);// A
+            gl.glVertex2f(-0.5f, -0.5f); // D
+            gl.glVertex2f(0f, -1.5f);// E
+            gl.glEnd();
+            gl.glBegin(gl.GL_TRIANGLES);
+            gl.glVertex2f(0f, 0f);// A
+            gl.glVertex2f(-1.5f, 0f); // F
+            gl.glVertex2f(-1f, 0.5f); // G
+            gl.glEnd();
+            gl.glBegin(gl.GL_TRIANGLES);
+            gl.glVertex2f(0f, 0f);// A
+            gl.glVertex2f(0.5f, -0.5f); // H
+            gl.glVertex2f(1.5f, 0f); // I
+            gl.glEnd();
+       }
+       
 }
 
