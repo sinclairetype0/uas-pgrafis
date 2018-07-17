@@ -147,7 +147,7 @@ public class GLRenderer implements GLEventListener {
     int angle = 0;
     int angle2 = 0;
     int gerakin = 0;
-    int gerakin2 = 0; 
+    float sunk = 0;
     boolean angkat = false;
     boolean maju = false;
 
@@ -165,29 +165,44 @@ public class GLRenderer implements GLEventListener {
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
         //Pasif Objek
         Objek.air(gl);
+        gl.glRotatef(silinderAngle, x, y, z);
         gl.glTranslatef(5f, 0.5f, -10f);
-        Objek.bridge(drawable);
+        Objek.bridgepasif(drawable); // jembatan pasif kanan
         Objek.roadpasif(drawable);
         gl.glTranslatef(0f, 0f, -3f);
-        Objek.bridge(drawable);
-        gl.glTranslatef(-15f, 0f, 3f);
+        Objek.bridgepasif(drawable);
+        
+        gl.glTranslatef(-30f, 0f, 3f); // jembatan pasif kiri
         Objek.roadpasif(drawable);
-        Objek.bridge(drawable);
+        Objek.bridgepasif(drawable);
         gl.glTranslatef(0f, 0f, -3f);
-        Objek.bridge(drawable);
+        Objek.bridgepasif(drawable);
         
         //Kapal
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
+        gl.glRotatef(silinderAngle, x, y, z);
         //Maju Kapal
         gl.glTranslatef(0f, -1f, -10f);
-        if (maju) {
-            drawmaju(drawable, 66);
-        } else if (maju == false && gerakin >= 5) {
-            drawmaju2(drawable, 66);
+        if (sunk == 0)
+        {
+            if (maju == true) {
+                kapalmaju(drawable, 78);
+            } 
+            else if (maju == false) {
+                kapalmundur(drawable, 78);
+            }     
         }
-//        gl.glRotatef(silinderAngle, x, y, z);
-//        gl.glTranslatef(0, 0, 0f);
+        else {
+            gl.glTranslatef(0, sunk, gerakin); // simpan gerakan kapal
+        }
+        if (angle <= 20)
+        {
+            if (gerakin >= 5 && gerakin <= 15) // jika kapal maju ketika angle <= 20 maka kapal tenggelam
+            {
+                sunk = sunk - 0.5f;
+            }
+        }
         Objek.Kapal(drawable);
        
         gl.glLoadIdentity();
@@ -197,8 +212,14 @@ public class GLRenderer implements GLEventListener {
         gl.glTranslatef(-1f, 0, 0);// tiang depan
         gl.glRotatef(silinderAngle, x, y, z);
         Objek.pillar(drawable);
+        gl.glTranslatef(-10f, 0, 0); // tiang depan 2
+        Objek.pillar(drawable);
+        gl.glTranslatef(10f, 0, 0);
         gl.glTranslatef(0, 0, -3f); // tiang belakang
         Objek.pillar(drawable);
+        gl.glTranslatef(-10f, 0, 0); // tiang blkng 2
+        Objek.pillar(drawable);
+        gl.glTranslatef(10f, 0, 0);
         gl.glTranslatef(0, 0, 3f);
         gl.glTranslatef(1f, 0, 0);
 
@@ -219,8 +240,14 @@ public class GLRenderer implements GLEventListener {
         gl.glTranslatef(5f, 0, 0); // tiang depan
         gl.glRotatef(silinderAngle, x, y, z);
         Objek.pillar(drawable);
+        gl.glTranslatef(10f, 0, 0); // tiang depan 2
+        Objek.pillar(drawable);
+        gl.glTranslatef(-10f, 0, 0);
         gl.glTranslatef(0, 0, -3f); // tiang belakang
         Objek.pillar(drawable);
+        gl.glTranslatef(10f, 0, 0); // tiang blkng 2
+        Objek.pillar(drawable);
+        gl.glTranslatef(-10f, 0, 0);
         gl.glTranslatef(0, 0, 3f);
         gl.glTranslatef(-5f, 0, 0);
         if (angkat) {
@@ -306,7 +333,7 @@ public class GLRenderer implements GLEventListener {
         if (KeyCode == 32) {
             gl.glRotatef(angle, 0, 0, 1);
         }
-        if (angle <= 45) {
+        if (angle < 45) {
             angle++;
         }
     }
@@ -317,7 +344,7 @@ public class GLRenderer implements GLEventListener {
         if (KeyCode == 32) {
             gl.glRotatef(angle2, 0, 0, -1);
         }
-        if (angle2 <= 45) {
+        if (angle2 < 45) {
             angle2++;
         }
         gl.glTranslatef(-5f, 0, 0);
@@ -328,7 +355,7 @@ public class GLRenderer implements GLEventListener {
         if (KeyCode == 32) {
             gl.glRotatef(angle, 0, 0, 1);
         }
-        if (angle >= 0) {
+        if (angle > 0) {
             angle--;
         }
     }
@@ -339,37 +366,30 @@ public class GLRenderer implements GLEventListener {
         if (KeyCode == 32) {
             gl.glRotatef(angle2, 0, 0, -1);
         }
-        if (angle2 >= 0) {
+        if (angle2 > 0) {
             angle2--;
         }
         gl.glTranslatef(-5f, 0, 0);
     }
 
-        
-    void drawmaju(GLAutoDrawable drawable, int KeyCode) {
+
+    void kapalmaju(GLAutoDrawable drawable, int KeyCode) {
         GL gl = drawable.getGL();
-        gl.glTranslatef(0, 0, 5f);
-        if (KeyCode == 66) {
-//          gl.glRotatef(gerakin, 3, 0, 0);
+        if (KeyCode == 78) {
             gl.glTranslatef(0, 0, gerakin);
         }
-        if (gerakin <= 19) {
+        if (gerakin <= 20) {
             gerakin++;
         }
-        gl.glTranslatef(0, 0, 0);
     }
-
-    void drawmaju2(GLAutoDrawable drawable, int KeyCode) {
+    void kapalmundur(GLAutoDrawable drawable, int KeyCode) {
         GL gl = drawable.getGL();
-        gl.glTranslatef(0, 0, 19);
         if (KeyCode == 78) {
-//          gl.glRotatef(gerakin2, 0, 0, -1);
             gl.glTranslatef(0, 0, gerakin);
         }
-        if (gerakin2 >= 10) {
-            gerakin2--;
+        if (gerakin > 0) {
+            gerakin--;
         }
-        gl.glTranslatef(0, 0, -18f);
     }
 
 
@@ -381,10 +401,10 @@ public class GLRenderer implements GLEventListener {
         else if (keyCode == 69) {
             vectorMovement(depanBelakang, 2f, -1f);
         } //huruf D
-        else if (keyCode == 65) {
+        else if (keyCode == 68) {
             vectorMovement(samping, 2f, 1f);
         } //huruf A
-        else if (keyCode == 68) {
+        else if (keyCode == 65) {
             vectorMovement(samping, 2f, -1f);
         } //huruf W
         else if (keyCode == 87) {
@@ -430,8 +450,8 @@ public class GLRenderer implements GLEventListener {
             } else {
                 silinderZ = true;
             }
-        } //tombol banckspace
-        else if (keyCode == 98) {
+        } 
+        else if (keyCode == 98) { // 2
             if (kamera) {
                 kamera = false;
             } else {
@@ -473,12 +493,6 @@ public class GLRenderer implements GLEventListener {
             } else {
                 angkat = true;
             }
-        } else if (keyCode == 66) { //B
-            if (maju) {
-                maju = false;
-            } else {
-                maju = true;
-            }
         } else if (keyCode == 78) { //N
             if (maju) {
                 maju = false;
@@ -514,7 +528,16 @@ public class GLRenderer implements GLEventListener {
             depanBelakang.vectorRotation(samping, angle_samping - angle_samping2);
             cameraRotation(samping, angle_samping - angle_samping2);
             angle_samping2 = angle_samping;
-        } //enter
+        }        
+        //\
+         else if(keyCode == 92){
+        angle_depanBelakang -= 15f;
+        samping.vectorRotation(depanBelakang, angle_depanBelakang-angle_depanBelakang2);
+        vertikal.vectorRotation(depanBelakang, angle_depanBelakang-angle_depanBelakang2);
+        cameraRotation(vertikal, angle_samping-angle_samping2);
+        angle_depanBelakang2 = angle_depanBelakang;
+        }
+        //enter
         else if (keyCode == 10) {
             angle_depanBelakang += 15f;
             samping.vectorRotation(depanBelakang, angle_depanBelakang - angle_depanBelakang2);
