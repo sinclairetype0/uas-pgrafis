@@ -113,29 +113,61 @@ public class Objek {
         
         gl.glBegin(gl.GL_POLYGON);
         gl.glVertex3f(0, 0, -0.5f); // A
-        gl.glVertex3f(5f, 0, -0.5f); // B
-        gl.glVertex3f(5f, 0.2f, -0.5f); // C
+        gl.glVertex3f(20f, 0, -0.5f); // B
+        gl.glVertex3f(20f, 0.2f, -0.5f); // C
         gl.glVertex3f(0, 0.2f, -0.5f); // D
         
         gl.glVertex3f(0, 0.2f, -3f); // E
-        gl.glVertex3f(5f, 0.2f, -3f); // F
-        gl.glVertex3f(5f, 0.2f, -0.5f); // C
+        gl.glVertex3f(20f, 0.2f, -3f); // F
+        gl.glVertex3f(20f, 0.2f, -0.5f); // C
         
-        gl.glVertex3f(5f, 0, -0.5f); // B
-        gl.glVertex3f(5f, 0, -3f); // G
-        gl.glVertex3f(5f, 0.2f, -3f); // F
+        gl.glVertex3f(20f, 0, -0.5f); // B
+        gl.glVertex3f(20f, 0, -3f); // G
+        gl.glVertex3f(20f, 0.2f, -3f); // F
         
         gl.glVertex3f(0, 0.2f, -3f); // E
         gl.glVertex3f(0, 0f, -3f); // H
-        gl.glVertex3f(5f, 0, -3f); // G
+        gl.glVertex3f(20f, 0, -3f); // G
         
-        gl.glVertex3f(5f, 0, -0.5f); // B
+        gl.glVertex3f(20f, 0, -0.5f); // B
         gl.glVertex3f(0, 0, -0.5f); // A
         gl.glVertex3f(0, 0f, -3f); // H
         
         gl.glVertex3f(0, 0.2f, -3f); // E
         gl.glVertex3f(0, 0.2f, -0.5f); // D
         gl.glVertex3f(0, 0, -0.5f); // A
+        gl.glEnd();
+    }
+    
+    static void bridgepasif (GLAutoDrawable drawable){
+        GL gl = drawable.getGL();
+        gl.glColor3f(0.7f, 0.7f, 0.7f);
+        
+        gl.glBegin(gl.GL_POLYGON);
+        gl.glVertex3f(0, 0, 0); // A
+        gl.glVertex3f(20f, 0, 0); // B
+        gl.glVertex3f(20f, 0.5f, 0); // C
+        gl.glVertex3f(0, 0.5f, 0); // D
+        
+        gl.glVertex3f(0, 0.5f, -0.5f); // E
+        gl.glVertex3f(20f, 0.5f, -0.5f); // F
+        gl.glVertex3f(20f, 0.5f, 0); // C
+        
+        gl.glVertex3f(20f, 0, 0);//B
+        gl.glVertex3f(20f, 0, -0.5f);//G
+        gl.glVertex3f(20f, 0.5f, -0.5f);//F
+        
+        gl.glVertex3f(0, 0.5f, -0.5f); // E
+        gl.glVertex3f(0, 0f, -0.5f); // H
+        gl.glVertex3f(20f, 0, -0.5f);//G
+        
+        gl.glVertex3f(20f, 0, 0); // B
+        gl.glVertex3f(0, 0, 0); // A
+        gl.glVertex3f(0, 0f, -0.5f); // H
+        
+        gl.glVertex3f(0, 0.5f, -0.5f); // E
+        gl.glVertex3f(0, 0.5f, 0); // D
+        gl.glVertex3f(0, 0, 0); // A
         gl.glEnd();
     }
     
