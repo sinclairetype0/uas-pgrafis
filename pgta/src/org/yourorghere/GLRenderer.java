@@ -5,6 +5,9 @@
  */
 package org.yourorghere;
 
+import com.sun.opengl.util.j2d.TextRenderer;
+import java.awt.Color;
+import java.awt.Font;
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -146,11 +149,17 @@ public class GLRenderer implements GLEventListener {
 
     int angle = 0;
     int angle2 = 0;
+    int angleplus = 1;
     int gerakin = 0;
+    float jalan1 = 0;
+    float jalan2 = 0;
+    float acc = 0.2f;
     float sunk = 0;
+    int spin = 1;
     boolean angkat = false;
     boolean maju = false;
-
+    boolean trukkiri = false;
+    boolean trukkanan = false;
     public void display(GLAutoDrawable drawable) {
 
         GL gl = drawable.getGL();
@@ -160,6 +169,14 @@ public class GLRenderer implements GLEventListener {
         gl.glEnable(GL.GL_DEPTH_TEST);
         // Reset the current matrix to the "identity"
         // Move the "drawing cursor" around
+        gl.glClearColor(1f, 1f, 0.8f, 0);
+        TextRenderer textSpeed = new TextRenderer(new Font("Times New Roman", 10, 20));
+        textSpeed.beginRendering(900, 700);
+        textSpeed.setColor(Color.black);
+        textSpeed.setSmoothing(true);
+        textSpeed.draw("Kecepatan jembatan : " + angleplus, (int) (20), (int) (680));
+        textSpeed.draw("Kecepatan truk : " + acc, (int) (20), (int) (650));
+        textSpeed.endRendering();
         
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
@@ -200,14 +217,14 @@ public class GLRenderer implements GLEventListener {
         {
             if (gerakin >= 5 && gerakin <= 15) // jika kapal maju ketika angle <= 20 maka kapal tenggelam
             {
-                sunk = sunk - 0.5f;
+                sunk = sunk - 0.1f;
             }
         }
         Objek.Kapal(drawable);
        
+        // jalan jembatan kiri
         gl.glLoadIdentity();
         glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
-        // jalan jembatan kiri
         gl.glTranslatef(-5f, 0.5f, -10.0f);
         gl.glTranslatef(-1f, 0, 0);// tiang depan
         gl.glRotatef(silinderAngle, x, y, z);
@@ -259,7 +276,82 @@ public class GLRenderer implements GLEventListener {
         Objek.road(drawable);
         gl.glTranslatef(0, 0, -3f);
         Objek.bridge(drawable);
-
+        
+        gl.glLoadIdentity(); // truck merah kiri
+        glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
+        gl.glRotatef(silinderAngle, x, y, z);
+        gl.glTranslatef(-23f, 1f, -11f); 
+        if (trukkiri)
+        {
+            if (angle == 0 || jalan1 <= 15 || jalan1 >= 27) // jika truk tidak ada di daerah jembatan angkat maka jalan terus
+            {
+                lajutrukkiri(drawable, 44);
+            }
+            else if (jalan1 > 15 && jalan1 < 27) { // jika truk berhenti ditengah jalan maka dimundurkan
+                jalan1 = 15f;
+                gl.glTranslatef(jalan1, 0, 0);
+            }
+            else if (angle >= 1) { // jika jembatan naik maka truk berhenti
+                gl.glTranslatef(jalan1, 0, 0);
+            }
+        }
+        else if (trukkiri == false)
+        {
+            gl.glTranslatef(jalan1, 0, 0);
+        }
+        Objek.btruck(drawable);
+        gl.glTranslatef(1f, 0, 0);
+        Objek.htruck(drawable);
+        
+        gl.glLoadIdentity(); // truck merah kanan
+        glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
+        gl.glRotatef(silinderAngle, x, y, z);
+        gl.glTranslatef(22f, 1f, -10.5f); 
+        if (trukkanan) { 
+            if (angle == 0 || jalan2 >= -15 || jalan2 <= -27) // jika truk tidak ada di daerah jembatan angkat maka jalan terus
+            {
+                lajutrukkanan(drawable, 46);
+            }
+            else if (jalan2 < -15f && jalan2 > -27f) { // jika truk berhenti ditengah jalan maka dimundurkan
+                jalan2 = -15f;
+                gl.glTranslatef(jalan2, 0, 0);
+            }
+            else if (angle >= 1) { // jika jembatan naik maka truk berhenti
+                gl.glTranslatef(jalan2, 0, 0);
+            }
+        }
+        else if (trukkanan == false) {
+            gl.glTranslatef(jalan2, 0, 0);
+        }
+        Objek.btruck(drawable);
+        gl.glTranslatef(-0.5f, 0, 0);
+        Objek.htruck(drawable);
+        
+        gl.glLoadIdentity(); // baling kiri
+        glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
+        gl.glRotatef(silinderAngle, x, y, z);
+        gl.glTranslatef(-5.25f, 5f, -9.85f);
+        gl.glRotatef(spin, 0, 0, 1);
+        Objek.baling(drawable); 
+        gl.glTranslatef(0, 0, -4.25f);
+        Objek.baling(drawable);
+        
+        gl.glLoadIdentity(); // baling kanan
+        glu.gluLookAt(Cx, Cy, Cz, Lx, Ly, Lz, vertikal.x, vertikal.y, vertikal.z);
+        gl.glRotatef(silinderAngle, x, y, z);
+        gl.glTranslatef(5.25f, 5f, -9.85f);
+        gl.glRotatef(spin, 0, 0, 1);
+        Objek.baling(drawable);
+        gl.glTranslatef(0, 0, -4.25f);
+        Objek.baling(drawable);
+        System.out.println(spin);
+        if (spin < 360){
+        spin = spin + 10;
+        }
+        else {
+            spin = 0;
+        }
+        
         //GERAKAN
         if (silinder) {
             x = 0;
@@ -327,14 +419,14 @@ public class GLRenderer implements GLEventListener {
 
     public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
     }
-
+    // pergerakkan
     void drawingkiri(GLAutoDrawable drawable, int KeyCode) {
         GL gl = drawable.getGL();
         if (KeyCode == 32) {
             gl.glRotatef(angle, 0, 0, 1);
         }
         if (angle < 45) {
-            angle++;
+            angle = angle + angleplus;
         }
     }
     
@@ -345,7 +437,7 @@ public class GLRenderer implements GLEventListener {
             gl.glRotatef(angle2, 0, 0, -1);
         }
         if (angle2 < 45) {
-            angle2++;
+            angle2 = angle2 + angleplus;
         }
         gl.glTranslatef(-5f, 0, 0);
     }
@@ -356,7 +448,7 @@ public class GLRenderer implements GLEventListener {
             gl.glRotatef(angle, 0, 0, 1);
         }
         if (angle > 0) {
-            angle--;
+            angle = angle - angleplus;
         }
     }
 
@@ -367,7 +459,7 @@ public class GLRenderer implements GLEventListener {
             gl.glRotatef(angle2, 0, 0, -1);
         }
         if (angle2 > 0) {
-            angle2--;
+            angle2 = angle2 - angleplus;
         }
         gl.glTranslatef(-5f, 0, 0);
     }
@@ -391,9 +483,29 @@ public class GLRenderer implements GLEventListener {
             gerakin--;
         }
     }
+    void lajutrukkiri(GLAutoDrawable drawable, int KeyCode) {
+        GL gl = drawable.getGL();
+        if (KeyCode == 44) {
+            gl.glTranslatef(jalan1, 0, 0);
+        }
+        if ((jalan1 < 45f && acc >= 0) || (acc <= 0 && jalan1 >= 0))
+        {
+            jalan1 = jalan1 + acc;
+        }
+    }void lajutrukkanan(GLAutoDrawable drawable, int KeyCode) {
+        GL gl = drawable.getGL();
+        if (KeyCode == 46) {
+            gl.glTranslatef(jalan2, 0, 0);
+        }
+        if ((jalan2 > -44f || acc <= 0) && (acc >= 0 || jalan2 <= 0))
+        {
+            jalan2 = jalan2 - acc;
+        }
+    }
 
 
     void Key_Pressed(int keyCode) {
+        // Gerakan kamera
         //huruf Q
         if (keyCode == 81) {
             vectorMovement(depanBelakang, 2f, 1f);
@@ -412,7 +524,9 @@ public class GLRenderer implements GLEventListener {
         } //panah S
         else if (keyCode == 83) {
             vectorMovement(vertikal, 2f, -1f);
-        } //J
+        } 
+        // Tombol on / off
+        //J
         else if (keyCode == 74) {
             if (silinder) {
                 silinder = false;
@@ -499,6 +613,18 @@ public class GLRenderer implements GLEventListener {
             } else {
                 maju = true;
             }
+        } else if (keyCode == 44) { // .
+            if (trukkiri) {
+                trukkiri = false;
+            } else {
+                trukkiri = true;
+            }
+        } else if (keyCode == 46) { // ,
+            if (trukkanan) {
+                trukkanan = false;
+            } else {
+                trukkanan = true;
+            }
         }
         //panah kiri
         else if (keyCode == 37) {
@@ -544,6 +670,34 @@ public class GLRenderer implements GLEventListener {
             vertikal.vectorRotation(depanBelakang, angle_depanBelakang - angle_depanBelakang2);
             cameraRotation(vertikal, angle_samping - angle_samping2);
             angle_depanBelakang2 = angle_depanBelakang;
+        }      
+        else if (keyCode == 109) { // -
+            angleplus--;
+            if (angleplus <=0)
+            {
+                angleplus =1;
+            }
+        }
+        else if (keyCode == 107) { // +
+            angleplus++;
+            if (angleplus >= 10)
+            { 
+                angleplus = 10;
+            }
+        }
+        else if (keyCode == 111) { // /
+            acc = acc - 0.2f;
+            if (acc <= -3f)
+            {
+                acc = -3f;
+            }
+        }
+        else if (keyCode == 106) { // *
+            acc = acc + 0.2f;
+            if (acc >= 3f)
+            { 
+                acc= 3;
+            }
         }
     }
 }
